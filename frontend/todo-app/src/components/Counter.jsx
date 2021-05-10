@@ -14,6 +14,7 @@ class Counter extends Component {
 
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   render() {
@@ -23,20 +24,27 @@ class Counter extends Component {
         <CounterButton by={5} incrementMethod={this.increment} decrementMethod={this.decrement}/>
         <CounterButton by={10} incrementMethod={this.increment} decrementMethod={this.decrement}/>
         <span className="count">{this.state.counter}</span>
+        <div><button className="reset" onClick={this.reset}>Reset</button></div>
       </div>
     );
   }
 
   increment(by){    
-    this.setState({
-      counter: this.state.counter + by
-     });     
+    this.setState((prevState) => {
+      return {counter: prevState.counter + by}
+     });
   }
 
   decrement(by){    
+    this.setState((prevState) => {
+      return {counter: prevState.counter - by}
+     });
+  }
+
+  reset(){
     this.setState({
-      counter: this.state.counter - by
-     });     
+      counter: 0
+    });
   }
 }
 
