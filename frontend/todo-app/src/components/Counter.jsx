@@ -13,14 +13,15 @@ class Counter extends Component {
     }
 
     this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
   render() {
     return (
       <div className="Counter">      
-        <CounterButton incrementMethod={this.increment}/>
-        <CounterButton by={5} incrementMethod={this.increment}/>
-        <CounterButton by={10} incrementMethod={this.increment}/>
+        <CounterButton incrementMethod={this.increment} decrementMethod={this.decrement}/>        
+        <CounterButton by={5} incrementMethod={this.increment} decrementMethod={this.decrement}/>
+        <CounterButton by={10} incrementMethod={this.increment} decrementMethod={this.decrement}/>
         <span className="count">{this.state.counter}</span>
       </div>
     );
@@ -29,6 +30,12 @@ class Counter extends Component {
   increment(by){    
     this.setState({
       counter: this.state.counter + by
+     });     
+  }
+
+  decrement(by){    
+    this.setState({
+      counter: this.state.counter - by
      });     
   }
 }
