@@ -18,28 +18,25 @@ class LoginComponent extends Component {
         this.state = {
             username: 'guest',
             password: 'guest'
-        }
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleUserNameChange = this.handleUserNameChange.bind(this);
+        }        
+
+        this.handleChange = this.handleChange.bind(this);
                
     }
     render (){
         return (
             <div>
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleUserNameChange}/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
+                Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
                 <button>Login</button>
             </div>
         );
     }
 
-    handleUserNameChange(event){
-        this.setState({username:event.target.value});
-    }
-
-    handlePasswordChange(event){
-        this.setState({password:event.target.value});
-    }
+    handleChange(event){
+        console.log(this.state);
+        this.setState({[event.target.name]:event.target.value});
+    }   
 }
 
 export default TodoApp;
