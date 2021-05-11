@@ -88,17 +88,19 @@ class WelcomeComponent extends Component{
 
 class HeaderComponent extends Component{
     render(){
+        const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
+
         return (
             <header>
-                <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <div><a className="navbar-brand">TodoList</a></div>
-                    <ul class="navbar-nav">
-                        <li><Link class="nav-link" to="/welcome">Home</Link></li>
-                        <li><Link class="nav-link" to="/todos">Todo</Link></li>
+                    <ul className="navbar-nav">
+                        {isUserLoggedIn && <li><Link className="nav-link" to="/welcome">Home</Link></li>}
+                        {isUserLoggedIn && <li><Link className="nav-link" to="/todos">Todo</Link></li>}
                     </ul>
-                    <ul class="navbar-nav navbar-collapse justify-content-end">
-                        <li><Link class="nav-link" to="/login">Login</Link></li>
-                        <li><Link class="nav-link" to="/logout">Logout</Link></li>
+                    <ul className="navbar-nav navbar-collapse justify-content-end">
+                        {!isUserLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
+                        {isUserLoggedIn && <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
                     </ul>                    
                 </nav>
             </header>
@@ -146,7 +148,7 @@ constructor (props) {
         <div>
             <h1> List Todos</h1>
             <div className="container"></div>
-            <table class="table">
+            <table className="table">
                 <thead>
                     <tr>                        
                         <th>description</th>
@@ -158,7 +160,7 @@ constructor (props) {
                     {
                         this.state.todos.map(
                             todo =>
-                                <tr>                                    
+                                <tr >                                    
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
