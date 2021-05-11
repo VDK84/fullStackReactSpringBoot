@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import AuthenticationService from './AuthenticationService.js'
+import AuthenticatedRoute from './AuthenticatedRoute.jsx'
 
 class TodoApp extends Component {
     render () {
@@ -12,8 +13,8 @@ class TodoApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <Route path="/welcome/:username" component={WelcomeComponent}/>
-                            <Route path="/todos" component={ListTodosComponent}/>
+                            <AuthenticatedRoute path="/welcome/:username" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
                             <Route path="/logout" component={LogoutComponent}/>
                             <Route component={ErrorComponent}/>
                         </Switch>   
@@ -160,7 +161,7 @@ constructor (props) {
                     {
                         this.state.todos.map(
                             todo =>
-                                <tr >                                    
+                                <tr key={todo.id}>                                    
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
