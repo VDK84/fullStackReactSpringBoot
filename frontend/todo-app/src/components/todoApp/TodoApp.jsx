@@ -78,9 +78,19 @@ class WelcomeComponent extends Component{
 class HeaderComponent extends Component{
     render(){
         return (
-            <div>
-                Header <hr/>
-            </div>
+            <header>
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div><a className="navbar-brand">TodoList</a></div>
+                    <ul class="navbar-nav">
+                        <li><Link class="nav-link" to="/welcome">Home</Link></li>
+                        <li><Link class="nav-link" to="/todos">Todo</Link></li>
+                    </ul>
+                    <ul class="navbar-nav navbar-collapse justify-content-end">
+                        <li><Link class="nav-link" to="/login">Login</Link></li>
+                        <li><Link class="nav-link" to="/logout">Lgout</Link></li>
+                    </ul>                    
+                </nav>
+            </header>
         )
     }
 }
