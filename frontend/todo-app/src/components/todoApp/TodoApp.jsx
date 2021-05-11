@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import AuthenticationService from './AuthenticationService.js'
 
 class TodoApp extends Component {
     render () {
@@ -11,8 +12,9 @@ class TodoApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <Route path="/welcome" component={WelcomeComponent}/>
+                            <Route path="/welcome/:username" component={WelcomeComponent}/>
                             <Route path="/todos" component={ListTodosComponent}/>
+                            <Route path="/logout" component={LogoutComponent}/>
                             <Route component={ErrorComponent}/>
                         </Switch>   
                     <FooterComponent/>                 
@@ -25,6 +27,7 @@ class TodoApp extends Component {
 class LoginComponent extends Component {
     constructor(props){
         super(props);
+
         this.state = {
             username: 'guest',
             password: 'guest',
@@ -40,12 +43,13 @@ class LoginComponent extends Component {
     render (){
         return (
             <div>
-                {this.state.hasLoginFailed && <div>Invalid Credentials</div>}
-                {this.state.showSucessMessage && <div>Login Successful Credentials</div>}
-                <div>
+                <h1>Login</h1>
+                <div className="container">
+                    {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+                    {this.state.hasLoginFailed && <div>Invalid Credentials</div>}                    
                     User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                    <button onClick={this.loginClicked}>Login</button>
+                    <button className="btn btn" onClick={this.loginClicked}>Login</button>
                 </div>           
             </div>
         );
@@ -58,20 +62,27 @@ class LoginComponent extends Component {
     
     loginClicked(){
         if(this.state.username==='guest' && this.state.password==='guest'){
-            this.props.history.push(`/welcome/{this.state.username}`);
+            this.props.history.push(`/welcome/${this.state.username}`);
+            AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
             this.setState({showSucessMessage:true});
             this.setState({hasLoginFailed:false});
         } else {
-            this.props.history.push("/login", {hasLoginFailed:true, showSucessMessage:false});
+            this.setState({showSuccessMessage:false})
+            this.setState({hasLoginFailed:true})
         }
     }
 }
 
 class WelcomeComponent extends Component{
     render () {
-        return <div>
-                Welcome X. You can manage your todos <Link to="/todos">here</Link>.
+        return (
+            <div>
+                <h1>Welcome!</h1>
+                <div className="container">
+                    Welcome {this.props.match.params.username}. You can manage your todos <Link to="/todos">here</Link>.
+                </div>
             </div>
+        );
     }
 }
 
@@ -87,7 +98,7 @@ class HeaderComponent extends Component{
                     </ul>
                     <ul class="navbar-nav navbar-collapse justify-content-end">
                         <li><Link class="nav-link" to="/login">Login</Link></li>
-                        <li><Link class="nav-link" to="/logout">Lgout</Link></li>
+                        <li><Link class="nav-link" to="/logout">Logout</Link></li>
                     </ul>                    
                 </nav>
             </header>
@@ -95,12 +106,25 @@ class HeaderComponent extends Component{
     }
 }
 
-class FooterComponent extends Component{
+class LogoutComponent extends Component{
     render(){
         return (
             <div>
-                 <hr/>Footer
+                 <h1>You are logged out</h1>
+                 <div className="container">
+                     Thank You for Using Our Application.
+                 </div>
             </div>
+        )
+    }
+}
+
+class FooterComponent extends Component{
+    render(){
+        return (
+            <footer className="footer">
+                 <span className="text-muted">All Rights Reserved 2021.</span>
+            </footer>
         )
     }
 }
@@ -121,10 +145,10 @@ constructor (props) {
         return (
         <div>
             <h1> List Todos</h1>
-            <table>
+            <div className="container"></div>
+            <table class="table">
                 <thead>
-                    <tr>
-                        <th>id</th>
+                    <tr>                        
                         <th>description</th>
                         <th>Is Completed?</th>
                         <th>Target Date</th>
@@ -134,8 +158,7 @@ constructor (props) {
                     {
                         this.state.todos.map(
                             todo =>
-                                <tr>                    
-                                    <td>{todo.id}</td>
+                                <tr>                                    
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
