@@ -7,14 +7,19 @@ class WelcomeComponent extends Component{
         super(props);
         this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this);
         this.handleSuccesfulResponse = this.handleSuccesfulResponse.bind(this);
+        this.handleError = this.handleError.bind(this);
+
         this.state = {
-            welcomeMessage: ''
+            welcomeMessage: ''            
         }
     }
     render () {
         return (
             <div>
                 <h1>Welcome!</h1>
+                {this.state.isThereAnError && <div className="error error-message">
+                    {this.state.errorMessage}                    
+                </div>}
                 <div className="container">
                     Welcome {this.props.match.params.username}. You can manage your todos <Link to="/todos">here</Link>.
                 </div>
@@ -30,14 +35,26 @@ class WelcomeComponent extends Component{
     }
 
     retrieveWelcomeMessage(){
-        HelloWorldService.executeHelloWorldService()
+    //     HelloWorldService.executeHelloWorldService()
+    //     .then(response => this.handleSuccesfulResponse(response))
+    //     .catch();
+    // 
+        //response {"message":"Hello World"}
+        HelloWorldService.executeHelloWorldBeanPathVariableService(this.props.match.params.username)
         .then(response => this.handleSuccesfulResponse(response))
-        .catch();
+        .catch(error => this.handleError(error));
     }
 
+    
     handleSuccesfulResponse(response){
-        this.setState({welcomeMessage: response.data});
+        this.setState({welcomeMessage: response.data.message});
     }
+
+    handleError(error) {
+        console.log(error.response);
+        ErrorComponentBelowHeader.setState({errorMessage : error.response.data.message, isThereAnError: true});
+        // this.setState({errorMessage: error.response.data.message});
+    };
 }
 
 export default WelcomeComponent;

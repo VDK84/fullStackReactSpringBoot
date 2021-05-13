@@ -8,13 +8,12 @@ import LogoutComponent from './LogoutComponent.jsx'
 import FooterComponent from './FooterComponent.jsx'
 import HeaderComponent from './HeaderComponent.jsx'
 
-
 class TodoApp extends Component {
     render () {
         return (
             <div className="TodoApp">
                 <Router>
-                    <HeaderComponent/>                    
+                    <HeaderComponent/>                   
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
@@ -31,6 +30,6 @@ class TodoApp extends Component {
 }
 
 function ErrorComponent(){
-    return <div>Opps! An Error Ocurred.</div>
+    return <h2>Opps! An Error Ocurred.</h2>
 }
 export default TodoApp;
