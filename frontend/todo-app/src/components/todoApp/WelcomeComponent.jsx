@@ -50,10 +50,18 @@ class WelcomeComponent extends Component{
         this.setState({welcomeMessage: response.data.message});
     }
 
-    handleError(error) {
-        console.log(error.response);
-        ErrorComponentBelowHeader.setState({errorMessage : error.response.data.message, isThereAnError: true});
-        // this.setState({errorMessage: error.response.data.message});
+    handleError(error) {        
+        console.log('handleError - error:'+error);        
+        let errorMessage = '';
+        if(error.message){
+            errorMessage += error.message;
+        }
+        if(error.response && error.response.data){
+            errorMessage += error.response.data.message;
+        }
+
+        //ErrorComponentBelowHeader.setState({errorMessage : error.response.data.message, isThereAnError: true});
+        this.setState({welcomeMessage: errorMessage});
     };
 }
 

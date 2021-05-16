@@ -1,15 +1,17 @@
 import axios from 'axios'
+import ApiUtils from './ApiUtils.js'
+
 class HelloWorldService {
     executeHelloWorldService(){
-        return axios.get('http://localhost:8080/hello-world');
+        return axios.get(ApiUtils.getBasicURI()+'/hello-world');
     }
 
     executeHelloWorldBeanService(){
-        return axios.get('http://localhost:8080/hello-world-bean');
+        return axios.get(ApiUtils.getBasicURI()+'/hello-world-bean');
     }
 
     executeHelloWorldBeanPathVariableService(name){
-        return axios.get(`http://localhost:8080/hello-world-bean/path-variable/${name}`);
+        return axios.get(ApiUtils.getBasicURI()+`/hello-world-bean/path-variable/${name}`);
     }
 }
 
