@@ -1,24 +1,24 @@
 import axios from 'axios'
-import ApiUtils from './ApiUtils.js'
+import {API_URL} from '../Constants.js'
 
 class TodoDataService {    
     retrieveAllTodos(name){
-        return axios.get(ApiUtils.getBasicURI()+`/users/${name}/todos`);
+        return axios.get(`${API_URL}/users/${name}/todos`);
     }
 
     deleteTodo(name, id){
-        return axios.delete(ApiUtils.getBasicURI()+`/users/${name}/todos/${id}`);
+        return axios.delete(`${API_URL}/users/${name}/todos/${id}`);
     }
 
     getTodo(name, id){
-        return axios.get(ApiUtils.getBasicURI()+`/users/${name}/todos/${id}`);
+        return axios.get(`${API_URL}/users/${name}/todos/${id}`);
     }
     
     updateTodo(name, id, todo){
-        return axios.put(ApiUtils.getBasicURI()+`/users/${name}/todos/${id}`, todo);
+        return axios.put(`${API_URL}/users/${name}/todos/${id}`, todo);
     }
     createTodo(name, todo){
-        return axios.post(ApiUtils.getBasicURI()+`/users/${name}/todos/`, todo);
+        return axios.post(`${API_URL}/users/${name}/todos/`, todo);
     }
 }
 
