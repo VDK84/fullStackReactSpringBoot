@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_URL} from '../../Constants.js'
+import {API_URL, JPA_API_URL} from '../../Constants.js'
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser';
 
